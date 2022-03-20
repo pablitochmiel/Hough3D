@@ -13,8 +13,9 @@ max=sum(sum(sum(data==1)));
 % ylim([0 10])
 % zlim([0 16])
 [X,Y,Z]=convertTo3Vec(data);
+sz=size(data);
 scatter3(X,Y,Z,'r*');
 axis equal
-xlim([0 50])
-ylim([0 100])
-zlim([0 50])
+xlim([0 sz(1)])
+ylim([0 sz(2)])
+zlim([0 sz(3)])

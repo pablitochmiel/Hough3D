@@ -1,6 +1,6 @@
 close all;clc;clear;
 
-data=makeData1();
+data=makeDataSimple();
 
 % cos=data==1;
 % [x,y,z] = data;

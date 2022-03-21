@@ -27,6 +27,7 @@ zlabel('z')
 
 
 function[h, theta, phi, rho] = hough3Dplane(BW)
+fun=@(x,y,z,theta,phi) x.*cosd(theta).*cosd(phi) + y.*sind(theta).*cosd(phi) + z.*sind(phi);
 theta=-90:89;
 phi=-90:89;
 sz=size(BW);
@@ -34,6 +35,19 @@ maxd=sqrt(sz(1)^2+sz(2)^2+sz(3)^2);
 rho=-maxd:maxd;
 h=zeros(size(theta,2),size(phi,2),size(rho,2));
 
+for i = 1:sz(1)
+    for j = 1:sz(2)
+       for k = 1:sz(3)
+           if(BW(i,j,k)==1)
+               figure;
+               [xx,yy]= meshgrid(theta,phi);
+               zz=fun(i,j,k,xx,yy);
+               mesh(xx,yy,zz)
+               xlabel('\theta'), ylabel('\phi'),zlabel('/rho');
+           end
+       end
+    end
+end
 
 
 end

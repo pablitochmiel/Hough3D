@@ -1,7 +1,7 @@
 close all;clc;clear;
 
-%data=makeDataSimple();
-data=makeData1();
+data=makeDataSimple();
+%data=makeData1();
 
 % cos=data==1;
 % [x,y,z] = data;
@@ -60,8 +60,8 @@ function[h, theta, phi, rho] = hough3Dplane(BW)
 fun=@(x,y,z,theta,phi) round(x.*cosd(theta).*cosd(phi) + y.*sind(theta).*cosd(phi) + z.*sind(phi),1); 
 % theta=0:179;
 % phi=-90:89;
-theta=0:90;
-phi=0:90;
+theta=0:179;
+phi=-89:90;
 sz=size(BW);
 maxd=round(sqrt(sz(1)^2+sz(2)^2+sz(3)^2))+1;
 %rho=-maxd:0.1:maxd;

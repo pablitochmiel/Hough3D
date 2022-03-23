@@ -1,6 +1,6 @@
 close all;clc;clear;
 
-data=makeDataSimple();
+data=makeData1();
 %data=makeData1();
 
 % cos=data==1;
@@ -31,13 +31,14 @@ mx=max(max(max(H)));% find the max score location
 %[aatheta, aaphi, aarho]=find(H==mx);
 %fileID = fopen('plik.txt','w');
 %petla
+disp('score: '+string(mx));
 sz3=size(H);
 for i=1:sz3(1)
     for j=1:sz3(2)-1
         for k=1:sz3(3)
             if H(i,j,k) == mx
                 %fprintf( fileID, '%d %d %d\r\n', Theta(i), Phi(j), Rho(k));
-                disp(string(Theta(i))+' '+string(Phi(j))+' '+string(Rho(k)));
+                disp('Theta: '+string(Theta(i))+' Phi: '+string(Phi(j))+' Rho: '+string(Rho(k)));
             end
         end
     end
@@ -45,7 +46,7 @@ end
 for k=1:sz3(3)
     if H(1,sz3(2),k) == mx
         %fprintf( fileID, '%d %d %d\r\n', Theta(1), Phi(sz3(2)), Rho(k));
-        disp(string(Theta(1))+' '+string(Phi(sz3(2)))+' '+string(Rho(k)));
+        disp('Theta: '+string(Theta(1))+' Phi: '+string(Phi(sz3(2)))+' Rho: '+string(Rho(k)));
     end
 end
 
@@ -65,18 +66,18 @@ phi=-89:90;
 sz=size(BW);
 maxd=round(sqrt(sz(1)^2+sz(2)^2+sz(3)^2))+1;
 %rho=-maxd:0.1:maxd;
-rho=0:0.1:maxd;
+rho=-maxd:0.1:maxd;
 h=zeros(size(theta,2),size(phi,2),size(rho,2));
 
 for i = 1:sz(1)
     for j = 1:sz(2)
        for k = 1:sz(3)
            if(BW(i,j,k)==1)
-%              figure;
+               %figure;
                [yy,xx]= meshgrid(theta,phi);
                zz=fun(i,j,k,yy,xx);
-%                mesh(yy,xx,zz)
-%                xlabel('\theta'), ylabel('\phi'),zlabel('\rho');
+               %mesh(yy,xx,zz)
+               %xlabel('\theta'), ylabel('\phi'),zlabel('\rho');
                sz2=size(zz);
                for l=1:sz2(2)
                    for m=1:sz2(1)

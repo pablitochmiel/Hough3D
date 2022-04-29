@@ -1,18 +1,6 @@
 close all;clc;clear;
 
 data=makeData1();
-%data=makeData1();
-
-% cos=data==1;
-% [x,y,z] = data;
-% pcshow(data)
-% X = 1:5;
-% Y = 6:10;
-% Z = 11:15;
-% scatter3(X,Y,Z,'r*')
-% xlim([0 5])
-% ylim([0 10])
-% zlim([0 16])
 
 [X,Y,Z]=convertTo3Vec(data);
 sz=size(data);
@@ -25,10 +13,9 @@ xlabel('x')
 ylabel('y')
 zlabel('z')
 
-[H, Theta, Phi, Rho] = hough3Dplane(data);
+[H, Theta, Phi, Rho] = hough3Dsphere(data);
 
 mx=max(max(max(H)));% find the max score location
-%[aatheta, aaphi, aarho]=find(H==mx);
 %fileID = fopen('plik.txt','w');
 %petla
 disp('score: '+string(mx));
@@ -51,13 +38,9 @@ for k=1:sz3(3)
 end
 
 %fclose(fileID);
-% for i=1:sz3(3)
-%     rescale(H(:,:,i));
-% end
-%figure;
-% implay(H);
 
-function[h, theta, phi, rho] = hough3Dplane(BW)
+
+function[h, theta, phi, rho] = hough3Dsphere(BW)
 fun=@(x,y,z,theta,phi) round(x.*cosd(theta).*cosd(phi) + y.*sind(theta).*cosd(phi) + z.*sind(phi),1); 
 % theta=0:179;
 % phi=-90:89;
@@ -73,7 +56,7 @@ for i = 1:sz(1)
     for j = 1:sz(2)
        for k = 1:sz(3)
            if(BW(i,j,k)==1)
-               %figure;
+               figure;
                [yy,xx]= meshgrid(theta,phi);
                zz=fun(i,j,k,yy,xx);
                %mesh(yy,xx,zz)

@@ -1,23 +1,16 @@
 close all;clc;clear;
 
-data=makeData1();
+data=makeDataSimple2();
 scatter3D(data);
-r=10;
+r=15;
 
 [H] = hough3Dsphere(data,r);
 
-mx=max(max(max(H)));% find the max score location 
-
+mx=max(H(:));% find the max score location 
 disp('score: '+string(mx));
-sz3=size(H);
-for i=1:sz3(1)
-    for j=1:sz3(2)
-        for k=1:sz3(3)
-            if H(i,j,k) == mx
-                disp('X: '+string(i)+' Y: '+string(j)+' Z: '+string(k)+' R: '+string(r));
-            end
-        end
-    end
+[X,Y,Z]=ind2sub(size(H),find(H==mx));
+for i = 1:size(X,1)
+    disp('X: '+string(X(i))+' Y: '+string(Y(i))+' Z: '+string(Z(i))+' R: '+string(r));
 end
 
 function[h] = hough3Dsphere(BW, R)

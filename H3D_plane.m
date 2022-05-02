@@ -1,6 +1,6 @@
 close all;clc;clear;
 
-data=makeDataSimple2();
+data=makeData1();
 scatter3D(data);
 tic
 [H, Theta, Phi, Rho] = hough3Dplane(data);
@@ -30,19 +30,16 @@ h=zeros(size(theta,2),size(phi,2),size(rho,2));
 
 [x,y,z] = ind2sub(size(BW),find(BW));
 for i = 1:size(x,1)
-               %figure;
-               zz=fun(x(i),y(i),z(i),yy,xx);
-               %mesh(yy,xx,zz)
-               %xlabel('\theta'), ylabel('\phi'),zlabel('\rho');
-               sz2=size(zz);
-               for l=1:sz2(2)
-                   for m=1:sz2(1)
-                       h(l,m,rho==zz(m,l))=h(l,m,rho==zz(m,l))+1;
-                   end
-               end
-           
-       
-    
+    %figure;
+    zz=fun(x(i),y(i),z(i),yy,xx);
+    %mesh(yy,xx,zz)
+    %xlabel('\theta'), ylabel('\phi'),zlabel('\rho');
+    sz2=size(zz);
+    for l=1:sz2(2)
+      for m=1:sz2(1)
+           h(l,m,rho==zz(m,l))=h(l,m,rho==zz(m,l))+1;
+       end
+    end
 end
 
 end

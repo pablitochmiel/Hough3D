@@ -1,29 +1,7 @@
 close all;clc;clear;
 
-data=makeDataSimple();
-
-% cos=data==1;
-% [x,y,z] = data;
-% pcshow(data)
-% X = 1:5;
-% Y = 6:10;
-% Z = 11:15;
-% scatter3(X,Y,Z,'r*')
-% xlim([0 5])
-% ylim([0 10])
-% zlim([0 16])
-
-[X,Y,Z]=convertTo3Vec(data);
-sz=size(data);
-scatter3(X,Y,Z,'r.');
-axis equal
-xlim([0 sz(1)])
-ylim([0 sz(2)])
-zlim([0 sz(3)])
-xlabel('x')
-ylabel('y')
-zlabel('z')
-
+data=makeData1();
+scatter3D(data);
 [H, Theta, Phi, Rho] = hough3Dplane(data);
 
 mx=max(max(max(H)));% find the max score location

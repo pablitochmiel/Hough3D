@@ -2,47 +2,28 @@ close all;clc;clear;
 
 data=makeData1();
 scatter3D(data);
+tic
 [H, Theta, Phi, Rho] = hough3Dplane(data);
+toc
 
-mx=max(max(max(H)));% find the max score location
-%[aatheta, aaphi, aarho]=find(H==mx);
-%fileID = fopen('plik.txt','w');
-%petla
-disp('score: '+string(mx));
-sz3=size(H);
-for i=1:sz3(1)
-    for j=1:sz3(2)-1
-        for k=1:sz3(3)
-            if H(i,j,k) == mx
-                %fprintf( fileID, '%d %d %d\r\n', Theta(i), Phi(j), Rho(k));
-                disp('Theta: '+string(Theta(i))+' Phi: '+string(Phi(j))+' Rho: '+string(Rho(k)));
-            end
-        end
-    end
+mx=max(H(:));
+[X1,Y1,Z1]=ind2sub(size(H(:,1:end-1,:)),find(H(:,1:end-1,:)==mx));
+[X2,Y2,Z2]=ind2sub(size(H(1,end,:)),find(H(1,end,:)==mx));
+disp('found '+string(size(X1,1)+size(X2,1))+' shapes, score: '+string(mx));
+for i = 1:size(X1,1)
+    disp('Theta: '+string(Theta(X1(i)))+' Phi: '+string(Phi(Y1(i)))+' Rho: '+string(Rho(Z1(i))));
 end
-for k=1:sz3(3)
-    if H(1,sz3(2),k) == mx
-        %fprintf( fileID, '%d %d %d\r\n', Theta(1), Phi(sz3(2)), Rho(k));
-        disp('Theta: '+string(Theta(1))+' Phi: '+string(Phi(sz3(2)))+' Rho: '+string(Rho(k)));
-    end
+for i = 1:size(X2,1)
+    disp('Theta: '+string(Theta(1))+' Phi: '+string(Phi(end))+' Rho: '+string(Rho(Z2(i))));
 end
 
-%fclose(fileID);
-% for i=1:sz3(3)
-%     rescale(H(:,:,i));
-% end
-%figure;
-% implay(H);
 
 function[h, theta, phi, rho] = hough3Dplane(BW)
 fun=@(x,y,z,theta,phi) round(x.*cosd(theta).*cosd(phi) + y.*sind(theta).*cosd(phi) + z.*sind(phi),1); 
-% theta=0:179;
-% phi=-90:89;
 theta=0:179;
 phi=-89:90;
 sz=size(BW);
 maxd=round(sqrt(sz(1)^2+sz(2)^2+sz(3)^2))+1;
-%rho=-maxd:0.1:maxd;
 rho=-maxd:0.1:maxd;
 h=zeros(size(theta,2),size(phi,2),size(rho,2));
 

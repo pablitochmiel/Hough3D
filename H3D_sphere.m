@@ -7,8 +7,8 @@ r=15;
 [H] = hough3Dsphere(data,r);
 
 mx=max(H(:));% find the max score location 
-disp('score: '+string(mx));
 [X,Y,Z]=ind2sub(size(H),find(H==mx));
+disp('found '+string(size(X,1))+' shapes, score: '+string(mx));
 for i = 1:size(X,1)
     disp('X: '+string(X(i))+' Y: '+string(Y(i))+' Z: '+string(Z(i))+' R: '+string(r));
 end

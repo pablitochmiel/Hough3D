@@ -22,18 +22,16 @@ function[h, theta, phi, rho] = hough3Dplane(BW)
 fun=@(x,y,z,theta,phi) round(x.*cosd(theta).*cosd(phi) + y.*sind(theta).*cosd(phi) + z.*sind(phi),1); 
 theta=0:179;
 phi=-89:90;
+[yy,xx]= meshgrid(theta,phi);
 sz=size(BW);
 maxd=round(sqrt(sz(1)^2+sz(2)^2+sz(3)^2))+1;
 rho=-maxd:0.1:maxd;
 h=zeros(size(theta,2),size(phi,2),size(rho,2));
 
-for i = 1:sz(1)
-    for j = 1:sz(2)
-       for k = 1:sz(3)
-           if(BW(i,j,k)==1)
+[x,y,z] = ind2sub(size(BW),find(BW));
+for i = 1:size(x,1)
                %figure;
-               [yy,xx]= meshgrid(theta,phi);
-               zz=fun(i,j,k,yy,xx);
+               zz=fun(x(i),y(i),z(i),yy,xx);
                %mesh(yy,xx,zz)
                %xlabel('\theta'), ylabel('\phi'),zlabel('\rho');
                sz2=size(zz);
@@ -42,9 +40,9 @@ for i = 1:sz(1)
                        h(l,m,rho==zz(m,l))=h(l,m,rho==zz(m,l))+1;
                    end
                end
-           end
-       end
-    end
+           
+       
+    
 end
 
 end

@@ -1,9 +1,10 @@
 close all;clc;clear;
 
-data=makeDataSimple2();
-r=15;
+data=makeData1();
+r=10;
 
 [X,Y,Z] = ind2sub(size(data),find(data));
+
 sz=size(data);
 scatter3(X,Y,Z,'r.');
 axis equal

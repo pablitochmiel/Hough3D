@@ -1,17 +1,31 @@
 close all;clc;clear;
 
-data=makeDataSimple2();
+data=makeData2();
 scatter3D(data);
-r=15;
+r=[10 15 20 25];
 
-[H] = hough3Dsphere(data,r);
-
-mx=max(H(:));
-[X,Y,Z]=ind2sub(size(H),find(H==mx));
-disp('found '+string(size(X,1))+' sphares, score: '+string(mx));
-for i = 1:size(X,1)
-    disp('X: '+string(X(i))+' Y: '+string(Y(i))+' Z: '+string(Z(i))+' R: '+string(r));
+if numel(r)==1
+    [H] = hough3Dsphere(data,r);
+    
+    mx=max(H(:));
+    [X,Y,Z]=ind2sub(size(H),find(H==mx));
+    disp('found '+string(size(X,1))+' sphares, score: '+string(mx));
+    for i = 1:size(X,1)
+        disp('X: '+string(X(i))+' Y: '+string(Y(i))+' Z: '+string(Z(i))+' R: '+string(r));
+    end
+else
+    for rr=r
+        [H] = hough3Dsphere(data,rr);
+    
+        mx=max(H(:));
+        [X,Y,Z]=ind2sub(size(H),find(H==mx));
+        disp('found '+string(size(X,1))+' sphares, score: '+string(mx));
+        for i = 1:size(X,1)
+            disp('X: '+string(X(i))+' Y: '+string(Y(i))+' Z: '+string(Z(i))+' R: '+string(rr));
+        end
+    end
 end
+
 
 function[h] = hough3Dsphere(BW, R)
 sz=[size(BW,1),size(BW,2),size(BW,3)];

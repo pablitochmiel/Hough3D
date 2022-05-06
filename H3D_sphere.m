@@ -34,10 +34,10 @@ r2=R*R;
 [x,y,z] = ind2sub(size(BW),find(BW));
 
 for i = 1:size(x,1)
-    xMin=x(i)-R*10;
-    xMax=x(i)+R*10;
-    yMin=y(i)-R*10;
-    yMax=y(i)+R*10;
+    xMin=x(i)-R;
+    xMax=x(i)+R;
+    yMin=y(i)-R;
+    yMax=y(i)+R;
     if (xMin<1) 
         xMin=1; 
     end

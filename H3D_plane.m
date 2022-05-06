@@ -27,7 +27,7 @@ sz=size(BW);
 maxd=round(sqrt(sz(1)^2+sz(2)^2+sz(3)^2))+1;
 rho=-maxd:0.1:maxd;
 findIndex=@(value) (value+maxd)*10+1;
-h=zeros(size(theta,2),size(phi,2),size(rho,2));
+h=zeros(size(theta,2),size(phi,2),size(rho,2),'uint8');
 
 [x,y,z] = ind2sub(size(BW),find(BW));
 for i = 1:size(x,1)

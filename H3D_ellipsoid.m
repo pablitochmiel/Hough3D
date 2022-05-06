@@ -1,8 +1,8 @@
 close all;clc;clear;
 
-data=makeData2();
+data=makeData3();
 scatter3D(data);
-r=[10 15 20];
+r=[10 15 12];
 
 if size(r,1)==1
     if size(r,2) ~= 3
@@ -10,16 +10,16 @@ if size(r,1)==1
         return;
     end
     tic;
-    [H] = hough3Dellipsoid(data,r);
+    [H,Alpha,Beta,Gamma] = hough3Dellipsoid(data,r);
     toc;
     
-%     mx=max(H(:));
-%     [X,Y,Z,alpha,beta,gamma]=ind2sub(size(H),find(H==mx));
-%     disp('found '+string(size(X,1))+' sphares, score: '+string(mx));
-%     for i = 1:size(X,1)
-%         disp('X: '+string(X(i))+' Y: '+string(Y(i))+' Z: '+string(Z(i))+' A: '+string(r(1))+' B: '+string(r(2))+' A: '+string(r(3)) ...
-%             +' alpha: '+string(alpha(i))+' beta: '+string(beta(i))+' gamma: '+string(gamma(i)));
-%     end
+    mx=max(H(:));
+    [X,Y,Z,alpha,beta,gamma]=ind2sub(size(H),find(H==mx));
+    disp('found '+string(size(X,1))+' sphares, score: '+string(mx));
+    for i = 1:size(X,1)
+        disp('X: '+string(X(i))+' Y: '+string(Y(i))+' Z: '+string(Z(i))+' A: '+string(r(1))+' B: '+string(r(2))+' C: '+string(r(3)) ...
+            +' alpha: '+string(Alpha(alpha(i)))+' beta: '+string(Beta(beta(i)))+' gamma: '+string(Gamma(gamma(i))));
+    end
 else
     if size(r,2) ~= 3
         disp("ERROR r invalid size");
@@ -56,8 +56,8 @@ for i = 1:size(x,1)
             offset2=c2*(1-xx^2/a2-yy^2/b2);
             if(offset2 > 0)
                 offset = sqrt(offset2);
-                zz1 = round(-offset);
-                zz2 = round(offset);
+                zz1 = -offset;
+                zz2 = offset;
                 for al = alpha
                     for be = beta
                         for ga = gamma

@@ -1,8 +1,8 @@
 close all;clc;clear;
 
-data=makeData3();
+data=makeData2();
 scatter3D(data);
-r=[10 15 12];
+r=[25 25 25];
 
 if size(r,1)==1
     if size(r,2) ~= 3
@@ -39,9 +39,9 @@ end
 
 
 function[h,alpha,beta,gamma] = hough3Dellipsoid(BW, R)
-alpha=0:90:179;
-beta=0:90:179;
-gamma=0:90:179;
+alpha=0;
+beta=0;
+gamma=0;
 sz=[size(BW,1),size(BW,2),size(BW,3)];
 h=zeros(size(BW,1),size(BW,2),size(BW,3),size(alpha,2),size(beta,2),size(gamma,2),'uint8');
 a2=R(1)*R(1);

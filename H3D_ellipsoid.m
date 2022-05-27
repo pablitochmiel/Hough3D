@@ -1,8 +1,8 @@
 close all;clc;clear;
 
-data=makeData2();
+data=makeData3();
 scatter3D(data);
-r=[25 25 25];
+r=[10 15 12];
 
 if size(r,1)==1
     if size(r,2) ~= 3

@@ -2,7 +2,7 @@ close all;clc;clear;
 
 data=makeData2();
 scatter3D(data);
-r=5:5:30;
+r=10:5:25;
 
 if numel(r)==1
     [H] = hough3Dsphere(data,r);

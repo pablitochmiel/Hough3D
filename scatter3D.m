@@ -4,7 +4,7 @@ if ~exist('color','var')
       color = "r.";
 end
 
-figure;
+%figure;
 [X,Y,Z]=ind2sub(size(data),find(data));
 sz=size(data);
 scatter3(X,Y,Z,color);

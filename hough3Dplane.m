@@ -24,4 +24,6 @@ for i = 1:size(x,1)
     end
 end
 
+h(2:end,end,:)=0;
+
 end

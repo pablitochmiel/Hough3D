@@ -6,7 +6,6 @@ tic
 [H, Theta, Phi, Rho] = hough3Dplane(data);
 toc
 
-H(2:end,end,:)=0;
 mx=max(H(:));
 [B,I]=maxk(H(:),12);
 [X1,Y1,Z1] = ind2sub(size(H),I);

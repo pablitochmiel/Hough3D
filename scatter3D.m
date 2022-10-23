@@ -7,7 +7,9 @@ end
 %figure;
 [X,Y,Z]=ind2sub(size(data),find(data));
 sz=size(data);
-scatter3(X,Y,Z,color);
+
+scatter3(X,Y,Z,100,color);
+title('Points cloud');
 axis equal
 xlim([0 sz(1)])
 ylim([0 sz(2)])

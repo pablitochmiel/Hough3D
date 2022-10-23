@@ -2,7 +2,7 @@ close all;clc;clear;
 
 data=makeDataReal();
 scatter3D(data);
-r=10:20;
+r=12;
 
 caly=tic;
 if numel(r)==1

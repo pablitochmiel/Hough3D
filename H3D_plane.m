@@ -8,19 +8,44 @@ data=makeDataTest();
 % plot3([30,35,30,30,15,20,30],[6,17,28,6,17,28,6],[30,30,20,30,10,10,30],"m--.")
 % plot3([35,15,20,35],[17,17,28,17],[30,10,10,30],"m--.")
 % plot3([30,15,20,30],[28,17,28,28],[20,10,10,20],"m--.")
-scatter3D(data);
+% scatter3D(data);
 % grid on;
 % hold off;
-tic
+tic;
 [H, Theta, Phi, Rho] = hough3Dplane(data);
 toc
 
+colors=[[0 1 0];[0,0,1];[0 1 1];[1 0 1];[1 1 0];
+    [0 0.4470 0.7410];[0.8500 0.3250 0.0980];[0.9290 0.6940 0.1250];[0.4940 0.1840 0.5560];
+    [0.4660 0.6740 0.1880];[0.3010 0.7450 0.9330];[0.6350 0.0780 0.1840]];
+
 mx=max(H(:));
-[B,I]=maxk(H(:),12);
+[B,I]=maxk(H(:),16);
 [X1,Y1,Z1] = ind2sub(size(H),I);
 disp('found '+string(size(X1,1))+' planes');
 for i = 1:size(X1,1)
-    disp('Theta: '+string(Theta(X1(i)))+' Phi: '+string(Phi(Y1(i)))+' Rho: '+string(Rho(Z1(i)))+' score: '+string(H(X1(i),Y1(i),Z1(i))));
+    disp(string(i)+') Theta: '+string(Theta(X1(i)))+' Phi: '+string(Phi(Y1(i)))+' Rho: '+string(Rho(Z1(i)))+' score: '+string(H(X1(i),Y1(i),Z1(i))));
+    figure;
+    hold on;
+    scatter3D(data);
+    displayFoundPlane(Theta(X1(i)),Phi(Y1(i)),Rho(Z1(i)),data,[0,0,1]);
+    grid on;
+    hold off;
 end
 
+% grid on;
+% hold off;
 
+function displayFoundPlane(theta,phi,rho,data,color)
+    fun=@(x,y,z,theta,phi) round(x.*cosd(theta).*cosd(phi) + y.*sind(theta).*cosd(phi) + z.*sind(phi),1);
+    sz=size(data);
+    for i =1:sz(1)
+        for j=1:sz(2)
+            for k=1:sz(3)
+                if(data(i,j,k)==1 && fun(i,j,k,theta,phi)==rho)
+                    scatter3(i,j,k,100,color,".");
+                end
+            end
+        end
+    end
+end

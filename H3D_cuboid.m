@@ -1,6 +1,6 @@
 close all;clc;clear;
 
-data=makeData1();
+data=makeDataTest();
 scatter3D(data);
 tic
 [H, Theta, Phi, Rho] = hough3Dplane(data);

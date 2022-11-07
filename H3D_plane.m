@@ -20,7 +20,7 @@ colors=[[0 1 0];[0,0,1];[0 1 1];[1 0 1];[1 1 0];
     [0.4660 0.6740 0.1880];[0.3010 0.7450 0.9330];[0.6350 0.0780 0.1840]];
 
 mx=max(H(:));
-[B,I]=maxk(H(:),16);
+[B,I]=maxk(H(:),30);
 [X1,Y1,Z1] = ind2sub(size(H),I);
 disp('found '+string(size(X1,1))+' planes');
 for i = 1:size(X1,1)
@@ -37,15 +37,11 @@ end
 % hold off;
 
 function displayFoundPlane(theta,phi,rho,data,color)
-    fun=@(x,y,z,theta,phi) round(x.*cosd(theta).*cosd(phi) + y.*sind(theta).*cosd(phi) + z.*sind(phi),1);
-    sz=size(data);
-    for i =1:sz(1)
-        for j=1:sz(2)
-            for k=1:sz(3)
-                if(data(i,j,k)==1 && fun(i,j,k,theta,phi)==rho)
-                    scatter3(i,j,k,100,color,".");
-                end
-            end
+    fun=@(x,y,z,theta,phi) round(x.*cosd(theta).*cosd(phi) + y.*sind(theta).*cosd(phi) + z.*sind(phi));
+    [x,y,z] = ind2sub(size(data),find(data));
+    for i = 1:size(x,1)
+        if( fun(x(i),y(i),z(i),theta,phi)==round(rho))
+            scatter3(x(i),y(i),z(i),100,color,".");
         end
     end
 end

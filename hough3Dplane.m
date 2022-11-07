@@ -1,13 +1,13 @@
 function[h, theta, phi, rho] = hough3Dplane(BW)
 fun=@(x,y,z,theta,phi) round(x.*cosd(theta).*cosd(phi) + y.*sind(theta).*cosd(phi) + z.*sind(phi),1); 
-theta=0:179;
+theta=0:0.1:179;
 phi=-89:90;
 [yy,xx]= meshgrid(theta,phi);
 sz=size(BW);
 maxd=round(sqrt(sz(1)^2+sz(2)^2+sz(3)^2))+1;
 rho=-maxd:0.1:maxd;
 findIndex=@(value) (value+maxd)*10+1;
-h=zeros(size(theta,2),size(phi,2),size(rho,2),'uint8');
+h=zeros(size(theta,2),size(phi,2),size(rho,2),'uint16');
 %colors=["blue","green","yellow"];
 [x,y,z] = ind2sub(size(BW),find(BW));
 % subplot(122)

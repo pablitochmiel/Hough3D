@@ -1,6 +1,6 @@
 function[h, theta, phi, rho] = hough3Dplane(BW)
 fun=@(x,y,z,theta,phi) round(x.*cosd(theta).*cosd(phi) + y.*sind(theta).*cosd(phi) + z.*sind(phi),1); 
-theta=0:0.1:179;
+theta=0:179;
 phi=-89:90;
 [yy,xx]= meshgrid(theta,phi);
 sz=size(BW);

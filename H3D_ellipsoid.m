@@ -1,8 +1,8 @@
 close all;clc;clear;
 
 data=makeDataTest();
-scatter3D(data);
-r=[10,10,10];
+%scatter3D(data);
+r=[10,15,12];
 
 if size(r,1)==1
     if size(r,2) ~= 3
@@ -14,11 +14,19 @@ if size(r,1)==1
     toc;
     
     mx=max(H(:));
-    [X,Y,Z,alpha,beta,gamma]=ind2sub(size(H),find(H==mx));
-    disp('found '+string(size(X,1))+' sphares, score: '+string(mx));
+    [B,I]=maxk(H(:),6);
+    [X,Y,Z,alpha,beta,gamma]=ind2sub(size(H),I);
+    disp('found '+string(size(X,1))+' sphares: '+string(mx));
     for i = 1:size(X,1)
         disp('X: '+string(X(i))+' Y: '+string(Y(i))+' Z: '+string(Z(i))+' A: '+string(r(1))+' B: '+string(r(2))+' C: '+string(r(3)) ...
-            +' alpha: '+string(Alpha(alpha(i)))+' beta: '+string(Beta(beta(i)))+' gamma: '+string(Gamma(gamma(i))));
+            +' alpha: '+string(Alpha(alpha(i)))+' beta: '+string(Beta(beta(i)))+' gamma: '+string(Gamma(gamma(i))) ...
+            +' score: '+string(H(X(i),Y(i),Z(i),alpha(i),beta(i),gamma(i))));
+        figure;
+        hold on;
+        scatter3D(data);
+        displayFoundEllipsoide(X(i),Y(i),Z(i),r,Alpha(alpha(i)),Beta(beta(i)),Gamma(gamma(i)));
+        grid on;
+        hold off;
     end
 else
     if size(r,2) ~= 3
@@ -50,7 +58,10 @@ c2=R(3)*R(3);
 [x,y,z] = ind2sub(size(BW),find(BW));
 
 for i = 1:size(x,1)
-    %tic;
+    tic;
+    if(mod(i,500)==0)
+        i
+    end
     for xx = -R(1):R(1)
         for yy = -R(2):R(2)
             offset2=c2*(1-xx^2/a2-yy^2/b2);
@@ -87,7 +98,35 @@ for i = 1:size(x,1)
             end
         end
     end
-    %toc;
+    toc;
+end
+
+end
+
+function displayFoundEllipsoide(x,y,z,R,al,be,ga)
+
+rx=[[1 0 0]
+    [0 cosd(al) -sind(al)]
+    [0 sind(al) cosd(al)]];
+ry=[[cosd(be) 0 sind(be)]
+    [0 1 0]
+    [-sind(be) 0 cosd(be)]];
+rz=[[cosd(ga) -sind(ga) 0]
+    [sind(ga) cosd(ga) 0]
+    [0 0 1]];
+rxyz=rx*ry*rz;
+
+for a = -R(1)-1:R(1)+1
+    for b = -R(2)-1:R(2)+1
+       for c = -R(3)-1:R(3)+1
+           sum=a*a/R(1)/R(1)+b*b/R(2)/R(2)+c*c/R(3)/R(3);
+           if(sum>0.995 && sum < 1.005)
+               point1=round(rxyz*[a;b;c]+[x;y;z]);
+               scatter3(point1(1),point1(2),point1(3),100,'blue.');
+               %data(a+x,b+y,c+z)=1;
+           end
+       end
+    end
 end
 
 end

@@ -1,8 +1,8 @@
 close all;clc;clear;
 
-data=makeDataReal();
-scatter3D(data);
-r=12;
+data=makeDataTest();
+%scatter3D(data);
+r=20;
 
 caly=tic;
 if numel(r)==1
@@ -10,16 +10,18 @@ if numel(r)==1
     [H] = hough3Dsphere(data,r);
     toc(pojedynczy)
     mx=max(H(:));
-    [X,Y,Z]=ind2sub(size(H),find(H==mx));
-    disp('found '+string(size(X,1))+' sphares, score: '+string(mx));
-    figure;
-    hold on;
-    scatter3D(data);
+    [B,I]=maxk(H(:),6);
+    [X,Y,Z]= ind2sub(size(H),I);
+    disp('found '+string(size(X,1))+' sphares: ');
     for i = 1:size(X,1)
-        disp('X: '+string(X(i))+' Y: '+string(Y(i))+' Z: '+string(Z(i))+' R: '+string(r));
+        disp('X: '+string(X(i))+' Y: '+string(Y(i))+' Z: '+string(Z(i))+' R: '+string(r)+' score: '+string(H(X(i),Y(i),Z(i))));
+        figure;
+        hold on;
+        scatter3D(data);
         displayFoundCircle(X(i),Y(i),Z(i),r);
+        grid on;
+        hold off;
     end
-    hold off;
 else
     figure;
     hold on;
@@ -29,7 +31,8 @@ else
         [H] = hough3Dsphere(data,rr);
         toc(pojedynczy)
         mx=max(H(:));
-        [X,Y,Z]=ind2sub(size(H),find(H==mx));
+        [B,I]=maxk(H(:),16);
+        [X,Y,Z]= ind2sub(size(H),I);
         disp('found '+string(size(X,1))+' sphares, score: '+string(mx));
         for i = 1:size(X,1)
             disp('X: '+string(X(i))+' Y: '+string(Y(i))+' Z: '+string(Z(i))+' R: '+string(rr));
@@ -38,7 +41,7 @@ else
     end
 end
 hold off;
-toc(caly)
+%toc(caly)
 
 
 function[h] = hough3Dsphere(BW, R)
@@ -97,7 +100,7 @@ for i = x-r-1:x+r+1
            c=k-z;
            radius=a*a+b*b+c*c;
            if(radius>rr1 && radius < rr2)
-               scatter3(i,j,k,'blue.');
+               scatter3(i,j,k,100,'blue.');
            end
        end
     end

@@ -1,6 +1,7 @@
 close all;clc;clear;
 
 data=makeDataTest();
+data=addNoise(data,2000);
 % subplot(121);
 % hold on;
 % plot3([10,20,30,40,35,30,25,20,15,10],[6,6,6,6,17,28,39,28,17,6],[10,20,30,40,30,20,10,10,10,10], "m--.")
@@ -8,7 +9,7 @@ data=makeDataTest();
 % plot3([30,35,30,30,15,20,30],[6,17,28,6,17,28,6],[30,30,20,30,10,10,30],"m--.")
 % plot3([35,15,20,35],[17,17,28,17],[30,10,10,30],"m--.")
 % plot3([30,15,20,30],[28,17,28,28],[20,10,10,20],"m--.")
-% scatter3D(data);
+scatter3D(data);
 % grid on;
 % hold off;
 tic;
@@ -22,15 +23,15 @@ colors=[[0 1 0];[0,0,1];[0 1 1];[1 0 1];[1 1 0];
 mx=max(H(:));
 [B,I]=maxk(H(:),16);
 [X1,Y1,Z1] = ind2sub(size(H),I);
-disp('found '+string(size(X1,1))+' planes');
+disp('found '+string(size(X1,1))+' planes: ');
 for i = 1:size(X1,1)
     disp(string(i)+') Theta: '+string(Theta(X1(i)))+' Phi: '+string(Phi(Y1(i)))+' Rho: '+string(Rho(Z1(i)))+' score: '+string(H(X1(i),Y1(i),Z1(i))));
-    figure;
-    hold on;
-    scatter3D(data);
-    displayFoundPlane(Theta(X1(i)),Phi(Y1(i)),Rho(Z1(i)),data,[0,0,1]);
-    grid on;
-    hold off;
+%     figure;
+%     hold on;
+%     scatter3D(data);
+%     displayFoundPlane(Theta(X1(i)),Phi(Y1(i)),Rho(Z1(i)),data,[0,0,1]);
+%     grid on;
+%     hold off;
 end
 
 % grid on;
@@ -39,9 +40,20 @@ end
 function displayFoundPlane(theta,phi,rho,data,color)
     fun=@(x,y,z,theta,phi) round(x.*cosd(theta).*cosd(phi) + y.*sind(theta).*cosd(phi) + z.*sind(phi));
     [x,y,z] = ind2sub(size(data),find(data));
+    xx=zeros(1000,1,"uint16");
+    yy=zeros(1000,1,"uint16");
+    zz=zeros(1000,1,"uint16");
+    j=1;
+
     for i = 1:size(x,1)
         if( fun(x(i),y(i),z(i),theta,phi)==round(rho))
-            scatter3(x(i),y(i),z(i),100,color,".");
+            xx(j)=x(i);
+            yy(j)=y(i);
+            zz(j)=z(i);
+            j=j+1;
         end
     end
+
+    scatter3(xx,yy,zz,100,color,".");
+    scatter3(0,0,0,100,"white.");
 end

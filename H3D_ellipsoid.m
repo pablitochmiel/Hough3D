@@ -1,8 +1,11 @@
 close all;clc;clear;
 
 data=makeDataTest();
+data=addNoise(data,2000);
 %scatter3D(data);
 r=[20,15,20];
+%r=[25,20,15];
+%r=[10,15,12];
 
 if size(r,1)==1
     if size(r,2) ~= 3
@@ -16,7 +19,7 @@ if size(r,1)==1
     mx=max(H(:));
     [B,I]=maxk(H(:),6);
     [X,Y,Z,alpha,beta,gamma]=ind2sub(size(H),I);
-    disp('found '+string(size(X,1))+' sphares: '+string(mx));
+    disp('found '+string(size(X,1))+' sphares: ');
     for i = 1:size(X,1)
         disp('X: '+string(X(i))+' Y: '+string(Y(i))+' Z: '+string(Z(i))+' A: '+string(r(1))+' B: '+string(r(2))+' C: '+string(r(3)) ...
             +' alpha: '+string(Alpha(alpha(i)))+' beta: '+string(Beta(beta(i)))+' gamma: '+string(Gamma(gamma(i))) ...
@@ -102,6 +105,11 @@ end
 
 function displayFoundEllipsoide(x,y,z,R,al,be,ga)
 
+xx=zeros(1000,1,"uint16");
+yy=zeros(1000,1,"uint16");
+zz=zeros(1000,1,"uint16");
+idx=1;
+
 rx=[[1 0 0]
     [0 cosd(al) -sind(al)]
     [0 sind(al) cosd(al)]];
@@ -119,12 +127,17 @@ for a = -R(1)-1:R(1)+1
            sum=a*a/R(1)/R(1)+b*b/R(2)/R(2)+c*c/R(3)/R(3);
            if(sum>0.995 && sum < 1.005)
                point1=round(rxyz*[a;b;c]+[x;y;z]);
-               scatter3(point1(1),point1(2),point1(3),100,'blue.');
-               %data(a+x,b+y,c+z)=1;
+               xx(idx)=point1(1);
+               yy(idx)=point1(2);
+               zz(idx)=point1(3);
+               idx=idx+1;
            end
        end
     end
 end
+
+scatter3(xx,yy,zz,100,"blue.");
+scatter3(0,0,0,100,"white.");
 
 end
 

@@ -2,16 +2,16 @@ close all;clc;clear;
 
 data=makeDataTest();
 %scatter3D(data);
-r=[10,15,12];
+r=[20,15,20];
 
 if size(r,1)==1
     if size(r,2) ~= 3
         disp("ERROR r invalid size");
         return;
     end
-    tic;
+    caly=tic;
     [H,Alpha,Beta,Gamma] = hough3Dellipsoid(data,r);
-    toc;
+    toc(caly);
     
     mx=max(H(:));
     [B,I]=maxk(H(:),6);
@@ -57,31 +57,28 @@ b2=R(2)*R(2);
 c2=R(3)*R(3);
 [x,y,z] = ind2sub(size(BW),find(BW));
 
-for i = 1:size(x,1)
+for j=1:size(alpha,2)
     tic;
-    if(mod(i,500)==0)
-        i
-    end
-    for xx = -R(1):R(1)
-        for yy = -R(2):R(2)
-            offset2=c2*(1-xx^2/a2-yy^2/b2);
-            if(offset2 > 0)
-                offset = sqrt(offset2);
-                zz1 = -offset;
-                zz2 = offset;
-                for j=1:size(alpha,2)
-                    for k=1:size(beta,2)
-                        for l=1:size(gamma,2)
-                            rx=[[1 0 0]
-                                [0 cosd(alpha(j)) -sind(alpha(j))]
-                                [0 sind(alpha(j)) cosd(alpha(j))]];
-                            ry=[[cosd(beta(k)) 0 sind(beta(k))]
-                                [0 1 0]
-                                [-sind(beta(k)) 0 cosd(beta(k))]];
-                            rz=[[cosd(gamma(l)) -sind(gamma(l)) 0]
-                                [sind(gamma(l)) cosd(gamma(l)) 0]
-                                [0 0 1]];
-                            rxyz=rx*ry*rz;
+    for k=1:size(beta,2)
+        for l=1:size(gamma,2)
+            rx=[[1 0 0]
+                [0 cosd(alpha(j)) -sind(alpha(j))]
+                [0 sind(alpha(j)) cosd(alpha(j))]];
+            ry=[[cosd(beta(k)) 0 sind(beta(k))]
+                [0 1 0]
+                [-sind(beta(k)) 0 cosd(beta(k))]];
+            rz=[[cosd(gamma(l)) -sind(gamma(l)) 0]
+                [sind(gamma(l)) cosd(gamma(l)) 0]
+                [0 0 1]];
+            rxyz=rx*ry*rz;
+            for i = 1:size(x,1)
+                for xx = -R(1):R(1)
+                    for yy = -R(2):R(2)
+                        offset2=c2*(1-xx^2/a2-yy^2/b2);
+                        if(offset2 > 0)
+                            offset = sqrt(offset2);
+                            zz1 = -offset;
+                            zz2 = offset;
 
                             point1=round(rxyz*[xx;yy;zz1]+[x(i);y(i);z(i)]);
                             point2=round(rxyz*[xx;yy;zz2]+[x(i);y(i);z(i)]);

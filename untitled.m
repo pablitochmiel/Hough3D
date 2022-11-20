@@ -1,5 +1,5 @@
-%close all;clc;clear;
-data22=makeDataTest();
+close all;clc;clear;
+data22=makeDataReal();
 figure;
 hold on;
 scatter3D(data22);

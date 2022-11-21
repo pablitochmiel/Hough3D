@@ -1,10 +1,10 @@
-close all;clc;clear;
+%close all;clc;clear;
 
-data=makeDataReal();
+data=load("zmienne\dataReal.mat").data;
 %data=data(173:333,173:333,173:333);
 %data=addNoise(data,2000);
 %scatter3D(data);
-r=10;%:4:50;
+r=10:4:16;
 
 caly=tic;
 if numel(r)==1

@@ -1,7 +1,7 @@
 function[h] = hough3Dsphere(BW, R)
 sz=[size(BW,1),size(BW,2),size(BW,3)];
 
-h=zeros(sz,'uint8');
+h=zeros(sz,'uint16');
 r2=R*R;
 [x,y,z] = ind2sub(size(BW),find(BW));
 

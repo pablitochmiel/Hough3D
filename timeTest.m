@@ -59,19 +59,20 @@ for k=1:10
     timeSfera3(k)=toc(aa);
 
     bb=tic;
-    [~]=hough3Dellipsoid(data,[rr(k)/5,rr(k)/5,rr(k)/5]);
+    [~]=hough3Dellipsoid(data,[rr(k)/5,4,4]);
     timeEl3(k)=toc(bb);
     k
 end
 
 %%
 
-subplot(331), plot(points,timePlane1);title("Plane");xlabel("Amount of points"),ylabel("time")
-subplot(332), plot(bok,timePlane2);title("Plane"),xlabel("Side size"),ylabel("time")
-
-subplot(334), plot(points,timeSfera1);title("Sphere"),xlabel("Amount of points"),ylabel("time")
-subplot(335), plot(bok,timeSfera2);title("Sphere"),xlabel("Side size"),ylabel("time")
-subplot(336), plot(rr,timeSfera3);title("Sphere"),xlabel("Radius size"),ylabel("time")
-subplot(337), plot(points,timeEl1);title("Ellipsoid"),xlabel("Amount of points"),ylabel("time")
-subplot(338), plot(bok,timeEl2);title("Ellipsoid"),xlabel("Side size"),ylabel("time")
-subplot(339), plot(rr,timeEl3);title("Ellipsoid"),xlabel("Radius size"),ylabel("time")
+subplot(311), plot(points,timePlane1);title("Plane");xlabel("Amount of points"),ylabel("time"),xlim([500 5000])
+subplot(312), plot(points,timeSfera1);title("Sphere"),xlabel("Amount of points"),ylabel("time"),xlim([500 5000])
+subplot(313), plot(points,timeEl1);title("Ellipsoid"),xlabel("Amount of points"),ylabel("time"),xlim([500 5000])
+%%
+subplot(311), plot(bok,timePlane2);title("Plane"),xlabel("Side size"),ylabel("time"),xlim([120 300])
+subplot(312), plot(bok,timeSfera2);title("Sphere"),xlabel("Side size"),ylabel("time"),xlim([120 300])
+subplot(313), plot(bok,timeEl2);title("Ellipsoid"),xlabel("Side size"),ylabel("time"),xlim([120 300])
+%%
+subplot(211), plot(rr./5,timeSfera3);title("Sphere"),xlabel("Radius size"),ylabel("time"),xlim([4 40])
+subplot(212), plot(rr./5,timeEl3);title("Ellipsoid"),xlabel("Radius size"),ylabel("time"),xlim([4 40])

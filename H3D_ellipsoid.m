@@ -1,9 +1,10 @@
-close all;clc;clear;
+%close all;clc;clear;
 
-data=makeDataTest();
-data=addNoise(data,2000);
+data=load("zmienne\dataReal.mat").data;
+data=data(1:150,1:150,1:150);
+%data=addNoise(data,2000);
 %scatter3D(data);
-r=[20,15,20];
+r=[16,18,20];
 %r=[25,20,15];
 %r=[10,15,12];
 

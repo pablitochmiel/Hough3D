@@ -1,4 +1,5 @@
 *.asv
 *.txt
 *data/*
+*mgr/*
 *.odt#
